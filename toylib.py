@@ -7,7 +7,7 @@ class ToyRobot:
         self.direction = direction
 
     def place(self, input_x, input_y, input_direction):
-        if input_x>=0 and input_x<5 and input_y>=0 and input_y<5 and input_direction in dir_list:
+        if input_x in range(5) and input_y in range(5) and input_direction in dir_list:
             try:
                 self.x = input_x
                 self.y = input_y
@@ -16,8 +16,6 @@ class ToyRobot:
                 return
         else:
             print ("Invalid values")
-
-
 
     def move(self):
         if self.direction=="NORTH":

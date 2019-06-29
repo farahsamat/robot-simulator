@@ -6,7 +6,7 @@ import os
 os.system('cls' if os.name == 'nt' else 'clear')
 
 #CLI menu
-main_menu = np.array(["RESET PLACE", "MOVE", "LEFT", "RIGHT", "REPORT", "QUIT"])
+main_menu = np.array(["PLACE", "MOVE", "LEFT", "RIGHT", "REPORT", "QUIT"])
 
 def input_number(prompt):
     while True:
@@ -30,6 +30,8 @@ def display_menu(options):
     return option
 
 #Class global vars.
+dir_list = ["NORTH", "SOUTH", "EAST", "WEST"]
+
 if __name__ == "__main__":
     x = 0
     y = 0
@@ -47,7 +49,7 @@ if __name__ == "__main__":
     play = ToyRobot(x,y,direction)
     play.place(x,y,direction)
 
-    while x>=0 and x<5 and y>=0 and y<5:
+    while x in range(5) and y in range(5) and direction in dir_list:
         choice = display_menu(main_menu)
         if choice == 1:
             define_place()
