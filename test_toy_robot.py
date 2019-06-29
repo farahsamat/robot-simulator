@@ -1,12 +1,9 @@
 import unittest
 
-from toy_robot import ToyRobot
+from toy_robot import ToyRobot, InputError
 
 
 class ToyRobotTest(unittest.TestCase):
-    def setUp(self):
-        return
-
     def test_init_sets_correct_default_attributes(self):
         robot = ToyRobot()
         self.assertEqual(robot.x, 0)
@@ -28,36 +25,120 @@ class ToyRobotTest(unittest.TestCase):
 
     def test_place_with_invalid_coordinates_raises_error(self):
         robot = ToyRobot()
-        robot.place(6, 3, "WEST")
-        self.assertRaises(NameError)
+        with self.assertRaises(InputError):
+            robot.place(6, 3, "WEST")
 
     def test_place_with_invalid_direction_raises_error(self):
         robot = ToyRobot()
-        robot.place(0, 3, "DOWN")
-        self.assertRaises(NameError)
+        with self.assertRaises(InputError):
+            robot.place(0, 3, "DOWN")
 
-    def test_move_robot_add_1_step_towards_direction(self):
+    def test_move_robot_adds_1_step_towards_north(self):
+        robot = ToyRobot(0, 3, "NORTH")
+        robot.move()
+        self.assertEqual(robot.x, 0)
+        self.assertEqual(robot.y, 4)
+        self.assertEqual(robot.direction, "NORTH")
+
+    def test_move_robot_adds_1_step_towards_south(self):
+        robot = ToyRobot(0, 3, "SOUTH")
+        robot.move()
+        self.assertEqual(robot.x, 0)
+        self.assertEqual(robot.y, 2)
+        self.assertEqual(robot.direction, "SOUTH")
+
+    def test_move_robot_adds_1_step_towards_east(self):
         robot = ToyRobot(0, 3, "EAST")
         robot.move()
         self.assertEqual(robot.x, 1)
         self.assertEqual(robot.y, 3)
         self.assertEqual(robot.direction, "EAST")
 
-    def test_move_prevent_robot_from_falling(self):
+    def test_move_robot_adds_1_step_towards_west(self):
+        robot = ToyRobot(1, 3, "WEST")
+        robot.move()
+        self.assertEqual(robot.x, 0)
+        self.assertEqual(robot.y, 3)
+        self.assertEqual(robot.direction, "WEST")
+
+    def test_move_prevents_robot_from_falling_north(self):
         robot = ToyRobot(0, 4, "NORTH")
         robot.move()
         self.assertEqual(robot.x, 0)
         self.assertEqual(robot.y, 4)
         self.assertEqual(robot.direction, "NORTH")
 
-    def test_left_rotate_robot_90_degrees_to_the_left(self):
+    def test_move_prevents_robot_from_falling_south(self):
+        robot = ToyRobot(2, 0, "SOUTH")
+        robot.move()
+        self.assertEqual(robot.x, 2)
+        self.assertEqual(robot.y, 0)
+        self.assertEqual(robot.direction, "SOUTH")
+
+    def test_move_prevents_robot_from_falling_east(self):
+        robot = ToyRobot(4, 4, "EAST")
+        robot.move()
+        self.assertEqual(robot.x, 4)
+        self.assertEqual(robot.y, 4)
+        self.assertEqual(robot.direction, "EAST")
+
+    def test_move_prevents_robot_from_falling_west(self):
+        robot = ToyRobot(0, 4, "WEST")
+        robot.move()
+        self.assertEqual(robot.x, 0)
+        self.assertEqual(robot.y, 4)
+        self.assertEqual(robot.direction, "WEST")
+
+    def test_left_rotates_robot_90_degrees_to_the_left_when_facing_north(self):
+        robot = ToyRobot(1, 1, "NORTH")
+        robot.left()
+        self.assertEqual(robot.x, 1)
+        self.assertEqual(robot.y, 1)
+        self.assertEqual(robot.direction, "WEST")
+
+    def test_left_rotates_robot_90_degrees_to_the_left_when_facing_south(self):
         robot = ToyRobot(1, 1, "SOUTH")
         robot.left()
         self.assertEqual(robot.x, 1)
         self.assertEqual(robot.y, 1)
         self.assertEqual(robot.direction, "EAST")
 
-    def test_right_rotate_robot_90_degrees_to_the_right(self):
+    def test_left_rotates_robot_90_degrees_to_the_left_when_facing_east(self):
+        robot = ToyRobot(1, 1, "EAST")
+        robot.left()
+        self.assertEqual(robot.x, 1)
+        self.assertEqual(robot.y, 1)
+        self.assertEqual(robot.direction, "NORTH")
+
+    def test_left_rotates_robot_90_degrees_to_the_left_when_facing_west(self):
+        robot = ToyRobot(1, 1, "WEST")
+        robot.left()
+        self.assertEqual(robot.x, 1)
+        self.assertEqual(robot.y, 1)
+        self.assertEqual(robot.direction, "SOUTH")
+
+    def test_right_rotates_robot_90_degrees_to_the_right_when_facing_north(self):
+        robot = ToyRobot(4, 4, "NORTH")
+        robot.right()
+        self.assertEqual(robot.x, 4)
+        self.assertEqual(robot.y, 4)
+        self.assertEqual(robot.direction, "EAST")
+
+    def test_right_rotates_robot_90_degrees_to_the_right_when_facing_south(self):
+        robot = ToyRobot(4, 4, "SOUTH")
+        robot.right()
+        self.assertEqual(robot.x, 4)
+        self.assertEqual(robot.y, 4)
+        self.assertEqual(robot.direction, "WEST")
+
+    def test_right_rotates_robot_90_degrees_to_the_right_when_facing_east(self):
+        robot = ToyRobot(4, 4, "EAST")
+        robot.right()
+        self.assertEqual(robot.x, 4)
+        self.assertEqual(robot.y, 4)
+        self.assertEqual(robot.direction, "SOUTH")
+
+    def test_right_rotates_robot_90_degrees_to_the_right_when_facing_west(self):
         robot = ToyRobot(4, 4, "WEST")
         robot.right()
         self.assertEqual(robot.x, 4)
