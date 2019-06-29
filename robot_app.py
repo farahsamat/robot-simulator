@@ -1,12 +1,13 @@
-from toylib import ToyRobot
+from toy_robot import ToyRobot
 import numpy as np
 import os
 
-#clear screen
+# clear screen
 os.system('cls' if os.name == 'nt' else 'clear')
 
-#CLI menu
+# CLI menu
 main_menu = np.array(["PLACE", "MOVE", "LEFT", "RIGHT", "REPORT", "QUIT"])
+
 
 def input_number(prompt):
     while True:
@@ -17,6 +18,7 @@ def input_number(prompt):
             print(" ")
             pass
     return num
+
 
 def display_menu(options):
     print(" ")
@@ -29,14 +31,11 @@ def display_menu(options):
         print(" ")
     return option
 
-#Class global vars.
+
+# Class global vars.
 dir_list = ["NORTH", "SOUTH", "EAST", "WEST"]
 
 if __name__ == "__main__":
-    x = 0
-    y = 0
-    direction = ''
-
     def define_place():
         global x, y, direction
         input_x, input_y, input_direction = input("Enter 'x', 'y' & 'direction' (x,y,direction): ").split(',')
@@ -45,15 +44,16 @@ if __name__ == "__main__":
         direction = input_direction.upper()
         return
 
+
     define_place()
-    play = ToyRobot(x,y,direction)
-    play.place(x,y,direction)
+    play = ToyRobot(x, y, direction)
+    play.place(x, y, direction)
 
     while x in range(5) and y in range(5) and direction in dir_list:
         choice = display_menu(main_menu)
         if choice == 1:
             define_place()
-            play = ToyRobot(x,y,direction)
+            play = ToyRobot(x, y, direction)
             play.place(x, y, direction)
         elif choice == 2:
             play.move()
@@ -62,7 +62,7 @@ if __name__ == "__main__":
         elif choice == 4:
             play.right()
         elif choice == 5:
-            play.report()
+            print(play.report())
         elif choice == 6:
             break
         continue
