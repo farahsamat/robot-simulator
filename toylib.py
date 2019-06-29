@@ -21,13 +21,25 @@ class ToyRobot:
 
     def move(self):
         if self.direction=="NORTH":
-            self.y+=1
+            if self.y<4:
+                self.y+=1
+            else:
+                return self.y
         elif self.direction=="SOUTH":
-            self.self.y-=1
+            if self.y>0:
+                self.y-=1
+            else:
+                return self.y
         elif self.direction=="EAST":
-            self.x+=1
+            if self.x<4:
+                self.x+=1
+            else:
+                return self.x
         elif self.direction=="WEST":
-            self.x-=1
+            if self.x>0:
+                self.x-=1
+            else:
+                return self.x
         else:
             return
 
