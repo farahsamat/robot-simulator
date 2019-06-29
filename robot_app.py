@@ -1,40 +1,13 @@
-from toy_robot import ToyRobot
-import numpy as np
 import os
+from toy_robot import *
 
-# clear screen
+# Clear screen
 os.system('cls' if os.name == 'nt' else 'clear')
 
 # CLI menu
-main_menu = np.array(["PLACE", "MOVE", "LEFT", "RIGHT", "REPORT", "QUIT"])
-
-
-def input_number(prompt):
-    while True:
-        try:
-            num = float(input(prompt))
-            break
-        except ValueError:
-            print(" ")
-            pass
-    return num
-
-
-def display_menu(options):
-    print(" ")
-    for i in range(len(options)):
-        print("{:d}. {:s}".format(i + 1, options[i]))
-
-    option = 0
-    while not (np.any(option == np.arange(len(options)) + 1)):
-        option = input_number("Enter command: ")
-        print(" ")
-    return option
-
+main_menu = ["PLACE", "MOVE", "LEFT", "RIGHT", "REPORT"]
 
 # Class global vars.
-dir_list = ["NORTH", "SOUTH", "EAST", "WEST"]
-
 if __name__ == "__main__":
     def define_place():
         global x, y, direction
@@ -45,24 +18,28 @@ if __name__ == "__main__":
         return
 
 
-    define_place()
-    play = ToyRobot(x, y, direction)
-    play.place(x, y, direction)
+    try:
+        define_place()
+        play = ToyRobot()
+        play.place(x, y, direction)
 
-    while x in range(5) and y in range(5) and direction in dir_list:
-        choice = display_menu(main_menu)
-        if choice == 1:
-            define_place()
-            play = ToyRobot(x, y, direction)
-            play.place(x, y, direction)
-        elif choice == 2:
-            play.move()
-        elif choice == 3:
-            play.left()
-        elif choice == 4:
-            play.right()
-        elif choice == 5:
-            print(play.report())
-        elif choice == 6:
-            break
-        continue
+        while x in range(5) and y in range(5) and direction in dir_list:
+            choice = input("Choose command (PLACE/MOVE/LEFT/RIGHT/REPORT): ")
+            if choice.upper() == main_menu[0]:
+                define_place()
+                play.place(x, y, direction)
+            elif choice.upper() == main_menu[1]:
+                play.move()
+            elif choice.upper() == main_menu[2]:
+                play.left()
+            elif choice.upper() == main_menu[3]:
+                play.right()
+            elif choice.upper() == main_menu[4]:
+                print(play.report())
+            else:
+                break
+            continue
+    except InputError:
+        print("Invalid input")
+    except ValueError:
+        print("Invalid input")

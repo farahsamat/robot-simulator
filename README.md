@@ -3,8 +3,6 @@ This project is part of the Readify Graduate Software Developer selection proces
 
 ## Getting Started
 * Ensure Python 3 is [installed](https://www.python.org/downloads/).
-* Clone this repository: `git clone https:://github.com/farahsamat/robot-simulator.git`
-* Install dependencies: `pip install -r requirements.txt`
 
 ## Running tests
 On the CLI, run: `python -m unittest`
